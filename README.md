@@ -4,7 +4,7 @@
 
 **Make your agent fluent in Obsidian.**
 
-Nine skills covering plugin syntax, graph view tuning, vault auditing, and heatmap visualizations. Compatible with Claude Code, Codex CLI, OpenCode, and any [skills-compatible agent](https://agentskills.io/specification).
+Skills covering plugin syntax, graph view tuning, vault auditing, research notes, and heatmap visualizations. Compatible with Claude Code, Codex CLI, OpenCode, and any [skills-compatible agent](https://agentskills.io/specification).
 
 [![License](https://img.shields.io/github/license/lexbritvin/obsidian-skills-pack)](LICENSE)
 ![Skills](https://img.shields.io/badge/skills-9-blue)
@@ -30,6 +30,10 @@ Nine skills covering plugin syntax, graph view tuning, vault auditing, and heatm
 
 - **[`obsidian-graph`](skills/obsidian-graph)** — Graph view tuning: color groups, filters, forces, palette. Full `graph.json` schema and pitfalls.
 - **[`obsidian-graph-audit`](skills/obsidian-graph-audit)** — diagnostic patterns for the graph: orphans, hubs, name collisions, hidden cluster patterns.
+
+### Research notes — turn external data into vault-native dashboards
+
+- **[`xquik-research-notes`](skills/xquik-research-notes)** — convert Xquik REST API exports into Obsidian notes and Dataview-ready metadata for X/Twitter research.
 
 Each skill ships with detailed reference files — open the linked folder for full coverage.
 
@@ -57,6 +61,7 @@ Repeat the second line for each skill you want.
 /plugin install obsidian-heatmap@obsidian-skills-pack
 /plugin install obsidian-graph@obsidian-skills-pack
 /plugin install obsidian-graph-audit@obsidian-skills-pack
+/plugin install xquik-research-notes@obsidian-skills-pack
 ```
 
 </details>
