@@ -38,12 +38,12 @@
     },
     {
       "name": "obsidian-tasks-syntax",
-      "description": "Skill for the Obsidian Tasks plugin — task lines with emoji metadata (📅⏳🛫🔁), priorities, recurrence, dependencies",
+      "description": "Skill for the Obsidian Tasks plugin — task lines with emoji or Dataview-style metadata (📅⏳🛫🔁 or [due:: ...]), priorities, recurrence, dependencies",
       "source": "./",
       "skills": [
         "./skills/obsidian-tasks-syntax"
       ],
-      "version": "2.0.0"
+      "version": "2.1.0"
     },
     {
       "name": "obsidian-tasks-query",
@@ -61,7 +61,7 @@
       "skills": [
         "./skills/obsidian-tasks-cli"
       ],
-      "version": "2.0.0"
+      "version": "2.1.0"
     },
     {
       "name": "obsidian-graph",

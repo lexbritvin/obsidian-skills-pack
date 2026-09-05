@@ -1,18 +1,52 @@
 ---
 name: obsidian-tasks-syntax
-description: Creates and edits Obsidian Tasks plugin task lines with emoji-based dates, priorities, recurrence, dependencies, and statuses. Use when the user asks to add a task, create a todo, set a due date, change priority, add recurrence, make a recurring reminder, edit a checkbox line, or anything involving task emoji signifiers (📅⏳🛫🔁). Also use when the user says "remind me to", "add a todo", "new checkbox", or wants to understand the task format.
-compatibility: Designed for Obsidian vaults with the Tasks plugin installed.
+description: 'Creates and edits Obsidian Tasks plugin task lines with emoji-based or Dataview-style dates, priorities, recurrence, dependencies, and statuses. Use when the user asks to add a task, create a todo, set a due date, change priority, add recurrence, make a recurring reminder, edit a checkbox line, or anything involving task emoji signifiers (📅⏳🛫🔁) or Dataview-style task fields ([due:: ...], [priority:: ...]). Also use when the user says "remind me to", "add a todo", "new checkbox", or wants to understand the task format.'
+compatibility: Designed for Obsidian vaults with the Tasks plugin installed. Covers both of the plugin's built-in task formats, set under Settings → Tasks → Task Format — Tasks Emoji Format (default) and Dataview Format.
 ---
 
 # Creating Tasks
 
-## Task Line Format
+## Task Format Setting
+
+The Tasks plugin has two mutually exclusive ways to write metadata on a task line, chosen in **Settings → Tasks → Task Format**:
+
+- **Tasks Emoji Format** (default) — emoji signifiers, positional. Covered below.
+- **Dataview Format** — inline fields (`[key:: value]`), read by both Tasks and the Dataview plugin.
+
+Check which one a vault uses before writing a task line — check `taskFormat` in the Tasks plugin's `data.json` (`"emoji"` or `"dataview"`), or ask the user. Writing emoji signifiers into a vault set to Dataview format (or vice versa) means Tasks won't parse the metadata at all.
+
+## Task Line Format — Tasks Emoji Format
 
 ```markdown
 - [ ] Task description 🔼 🔁 every week 🛫 2025-01-01 ⏳ 2025-01-05 📅 2025-01-10
 ```
 
 Order matters: description first, then priority, then recurrence, then dates. The Tasks plugin parses emoji signifiers by position — putting them out of order can cause misreads. Dates are always `YYYY-MM-DD` — natural language like "tomorrow" is not recognized on task lines (it only works in query blocks).
+
+## Task Line Format — Dataview Format
+
+```markdown
+- [ ] Task description [priority:: medium] [repeat:: every week] [start:: 2025-01-01] [scheduled:: 2025-01-05] [due:: 2025-01-10]
+```
+
+Fields are matched by name, not position — order does not matter. Each field is its own `[key:: value]` bracket; don't combine several keys inside one bracket. Dates are still always `YYYY-MM-DD`.
+
+**Emoji → Dataview field name:**
+
+| Emoji | Dataview field | Note |
+|-------|-----------------|------|
+| 📅 due date | `due` | |
+| ⏳ scheduled date | `scheduled` | |
+| 🛫 start date | `start` | |
+| ➕ created date | `created` | |
+| ✅ done date | `completion` | **not** `done` |
+| ❌ cancelled date | `cancelled` | |
+| 🔺⏫🔼🔽⏬ priority | `priority` | values: `highest`, `high`, `medium`, `low`, `lowest` (omit for Normal) |
+| 🔁 recurrence | `repeat` | **not** `recurrence`; rule text unchanged (`every week`, etc.) |
+| 🆔 id | `id` | |
+| ⛔ dependsOn | `dependsOn` | |
+
+`onCompletion` (auto-delete/archive on done, no emoji equivalent) is also available as `[onCompletion:: delete]` / `[onCompletion:: keep]`.
 
 ## Dates
 

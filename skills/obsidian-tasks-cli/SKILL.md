@@ -53,6 +53,8 @@ To add a new task to a file:
 obsidian append path="note.md" content="- [ ] New task 📅 2025-04-10"
 ```
 
+`append` writes whatever text you give it verbatim — match the vault's Task Format setting (Settings → Tasks → Task Format). If it's set to Dataview format, write `[due:: 2025-04-10]` instead of `📅 2025-04-10` (see `obsidian-tasks-syntax` for the full field mapping). Check `taskFormat` in the Tasks plugin's `data.json` (`"emoji"` or `"dataview"`) if unsure.
+
 ## Advanced Queries via Plugin API
 
 For filtering by priority, dates, tags, or any combination — use `obsidian eval` to access the Tasks plugin cache. The cache holds all parsed task objects with rich queryable properties.
@@ -132,7 +134,7 @@ This covers folder exclusions and file-frontmatter tag exclusions — the two mo
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `description` | string | Task text without emoji signifiers |
+| `description` | string | Task text with metadata stripped (emoji signifiers or Dataview inline fields, whichever the vault uses) |
 | `status.symbol` | string | ` `, `x`, `/`, `-` |
 | `isDone` | boolean | Whether task is complete |
 | `isBlocked` | boolean | Blocked by a dependency |
