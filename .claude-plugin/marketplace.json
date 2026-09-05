@@ -16,7 +16,7 @@
       "skills": [
         "./skills/obsidian-dataview"
       ],
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     {
       "name": "obsidian-charts",
@@ -25,7 +25,7 @@
       "skills": [
         "./skills/obsidian-charts"
       ],
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     {
       "name": "obsidian-meta-bind",

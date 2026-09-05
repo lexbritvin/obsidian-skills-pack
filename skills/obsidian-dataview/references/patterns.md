@@ -409,18 +409,16 @@ await api.execute(
 
 ## 7. Custom helper plugin (if the vault has one)
 
-A common vault pattern: a companion Obsidian plugin owns shared DataviewJS helpers, so individual `dataviewjs` blocks stay thin. Idiomatic shape:
+Some vaults pair a companion Obsidian plugin that owns shared DataviewJS helpers, so individual `dataviewjs` blocks stay thin. Check the vault's own `AGENTS.md` or other project docs for the plugin's id and API shape. Idiomatic call shape, using `my-vault-helpers` as a stand-in id:
 
 ```dataviewjs
-const tk = app.plugins.plugins["vault-toolkit"].api.dataview;
-const rows = tk.data.loadByStatus(dv, '"Some/Folder"', { status: "active" });
-tk.ui.progressBars(this.container, { bars: [/* … */] });
+const helpers = app.plugins.plugins["my-vault-helpers"].api;
+const rows = helpers.data.loadByStatus(dv, '"Some/Folder"', { status: "active" });
+helpers.ui.progressBars(this.container, { bars: [/* … */] });
 ```
 
-Conventions worth honouring (the vault's own `CLAUDE.md` should spell them out):
+Conventions worth honouring, if the vault documents them:
 
-- **Three hardcoded values per block**: the toolkit accessor, the source string, any domain constants. Everything else goes via the toolkit.
+- **Three hardcoded values per block**: the accessor, the source string, any domain constants. Everything else goes via the plugin's API.
 - **No domain business logic inside the plugin** — only generic data-loading and UI primitives. Domain knowledge lives in the calling block.
 - **No hardcoded vault paths inside plugin functions** — pass them in as arguments.
-
-If the vault has a toolkit plugin, read its own `CLAUDE.md` before adding new shared modules.

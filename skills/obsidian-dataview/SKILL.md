@@ -1,6 +1,6 @@
 ---
 name: obsidian-dataview
-description: Authoring queries, dashboards, and scripts for the Obsidian Dataview plugin — covers DQL (TABLE/LIST/TASK/CALENDAR), DataviewJS (`dv.*` API, DataArray, `dv.io`, `dv.view`, `dv.query`), inline DQL/JS, the metadata model (frontmatter, `Field:: value`, `[k:: v]`, `(k:: v)`, every `file.*` and task field), all DQL functions, and external plugin integration via `getAPI(app)`. Use this skill whenever the user mentions Dataview, DQL, DataviewJS, `dv.pages`, `dv.table`, `dv.taskList`, `dv.view`, `dv.io`, `file.tasks`, `file.outlinks`, `file.frontmatter`, asks to build a dashboard or query over notes ("list every note that…", "table of pages where…", "tasks due before…", "group books by genre"), writes ` ```dataview ` or ` ```dataviewjs ` blocks, uses inline `` `= …` `` or `` `$= …` ``, edits `.base` views or `dv.view` scripts, integrates Dataview from another plugin, or asks why a query returns wrong/empty results. Trigger even when "Dataview" is not named explicitly — any natural-language request to query Obsidian metadata is in scope.
+description: 'Authoring queries, dashboards, and scripts for the Obsidian Dataview plugin — covers DQL (TABLE/LIST/TASK/CALENDAR), DataviewJS (`dv.*` API, DataArray, `dv.io`, `dv.view`, `dv.query`), inline DQL/JS, the metadata model (frontmatter, `Field:: value`, `[k:: v]`, `(k:: v)`, every `file.*` and task field), all DQL functions, and external plugin integration via `getAPI(app)`. Use this skill whenever the user mentions Dataview, DQL, DataviewJS, `dv.pages`, `dv.table`, `dv.taskList`, `dv.view`, `dv.io`, `file.tasks`, `file.outlinks`, `file.frontmatter`, asks to build a dashboard or query over notes ("list every note that…", "table of pages where…", "tasks due before…", "group books by genre"), writes ` ```dataview ` or ` ```dataviewjs ` blocks, uses inline `` `= …` `` or `` `$= …` ``, edits `.base` views or `dv.view` scripts, integrates Dataview from another plugin, or asks why a query returns wrong/empty results. Trigger even when "Dataview" is not named explicitly — any natural-language request to query Obsidian metadata is in scope.'
 ---
 
 # Dataview
@@ -136,15 +136,15 @@ Cookbook (open tasks across the vault, daily-note metric aggregation, leaderboar
 
 ## Custom helper plugins
 
-If the vault has a companion Obsidian plugin owning shared DataviewJS helpers (a common pattern — sometimes called a "vault toolkit"), prefer the toolkit accessor over duplicating logic across notes:
+Some vaults pair Dataview with a companion plugin that exposes a JS API for shared DataviewJS helpers — data loaders, UI renderers — so logic lives in one place instead of being copy-pasted across notes. Check the vault's own `AGENTS.md` or other project docs for the plugin's id and API shape. Example call shape, using `my-vault-helpers` as a stand-in id:
 
 ```js
-const tk = app.plugins.plugins["vault-toolkit"].api.dataview;
-const rows = tk.data.loadByStatus(dv, '"Some/Folder"', { status: "active" });
-tk.ui.progressBars(this.container, { bars: [...] });
+const helpers = app.plugins.plugins["my-vault-helpers"].api;
+const rows = helpers.data.loadByStatus(dv, '"Some/Folder"', { status: "active" });
+helpers.ui.progressBars(this.container, { bars: [...] });
 ```
 
-The vault's own `CLAUDE.md` should document its toolkit conventions. The typical shape: inside a `dataviewjs` block keep three hardcoded values — the toolkit accessor, the source string (folder/tag), and any domain constants — and route everything else through the toolkit.
+The typical shape: inside a `dataviewjs` block keep three hardcoded values — the accessor, the source string (folder/tag), and any domain constants — and route everything else through the plugin's API.
 
 For one-off views inside a single note, plain `dataviewjs` is fine — keep blocks under ~70 lines or Obsidian's lazy-render leaves a gap until you scroll the block into view.
 
